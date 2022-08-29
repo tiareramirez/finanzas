@@ -1,0 +1,54 @@
+<%= render 'shared/menu' %>
+    <div class="container" style="margin-left:18%">
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <h4>Categorias</h4>
+            </div>
+        </div>
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12 ">
+                        <a href="/categorias/new" class="btn btn-success"><i class="far fa-plus-square"></i>&nbsp;Crear</a>
+                    </div>
+                    <div class="col-12" style="margin-top:2%">
+                        <table class="table table-sm" id="tableCategoria">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Categoria</th>
+                                    <th>Tipo</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @categoria.each do |item|  %>
+                                    <tr>
+                                        <td><%= item.id %></td>
+                                        <td><i class="fas fa-<%=item.icono %>" ></i> <%= item.categoria %></td>
+                                        <td>
+                                            <% if item.tipo == 1%> 
+                                            Ingreso
+                                            <% else %> 
+                                            Egreso
+                                            <% end %>
+                                        </td>
+                                        <td>
+                                        <%= link_to edit_categoria_path(item.id) do %><i class="fas fa-edit"></i>  Editar <% end %> &nbsp;                                            
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%= stylesheet_link_tag  %>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#tableCategoria').DataTable();
+        } );
+    </script>

@@ -1,0 +1,27 @@
+
+<div class="container">
+<div class="row" style="margin-top:5%">
+    <div class="col-12"> 
+        <center><h1>Iniciar sesión</h1></center>
+    </div>
+    <div class="col-12">
+    <%= form_with(url: sessions_path) do |form| %>
+                <div class="mb-3">
+                    <%= form.label :correo , :class => 'form-label' %>
+                    <%= form.text_field :correo , :class => 'form-control' , :placeholder =>'Usuario y o correo electronico' %>
+                </div>
+                <div class="mb-3">
+                    <%= form.label :password , :class => 'form-label' %>
+                    <%= form.password_field :password , :class => 'form-control' %>
+                </div>
+                <div class="mb-3">
+                    <label for="form-label">Eres nuevo? <a href="/users/new">¡Click para registrarse!</a></label>
+                </div>
+                <div class="mb-3">
+                 <%= form.submit "Iniciar sesión" , :class => 'btn btn-success' %>
+                </div>
+             
+            <% end %>
+    </div>
+</div>
+</div>  

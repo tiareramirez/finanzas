@@ -1,0 +1,112 @@
+<%= render 'shared/menu' %>
+  <div class="container" style="margin-left:18%""">
+
+    <div class="container-fluid">
+      <div class="row justify-content-end">
+        <div class="col-4">
+          <h2>Mis finanzas</h2>
+        </div>
+        <div class="col-4">
+          bienvenido: <%= Current.user.username %>
+
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-6">
+          <div class="card" style="width: 100%;">
+            <h5 class="card-title">Ingresos</h5>
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Categorias</h6>
+              <ul class="list-group list-group-flush">
+                <% @categoriaIng.each do |item| %>
+                  <li class="list-group-item">
+                  <i class="fas fa-<%=item.icono %>" ></i> <%= item.categoria %> :
+                    <%= Ingreso.where(tipo:1,fecha: (@fecha1 .. @fecha2),id_categoria:item.id).sum(:monto) %>
+                  </li>
+                  <%end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-6">
+          <div class="card" style="width: 100%;">
+            <h5 class="card-title">Egresos</h5>
+            <div class="card-body">
+              <h6 class="card-subtitle mb-2 text-muted">Categorias</h6>
+              <ul class="list-group list-group-flush">
+                <% @categoriaEgr.each do |item| %>
+                  <li class="list-group-item">
+                  <i class="fas fa-<%=item.icono %>" ></i> <%= item.categoria %> :
+                    <%= Ingreso.where(tipo:2,fecha: (@fecha1 .. @fecha2),id_categoria:item.id).sum(:monto) %>
+                  </li>
+                  <%end %>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-4">
+          <div class="card" style="width: 100%;">
+            <div class="card-body">
+              <center><a href="/ingresos" class="btn btn-primary">Más detalle</a></center> <br>
+              <center><a href="/ingresos/new"><i class="fas fa-plus-circle" style="font-size: 50px;"></i></a> </center>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card" style="width: 100%;">
+            <div class="card-body">
+              <center>
+                <div class="row">
+                  <div class="col-6">
+                    <%= form_with url: home_path , method: :get do |form| %>
+                      <div class="mb-3">
+                        <%= form.label :inicio , :class=> 'form-label' %>
+                          <%= form.date_field :inicio , :class=> 'form-control', :value => @fecha1,
+                          onChange: 'this.form.requestSubmit()' %>
+                      </div>
+                  </div>
+                  <div class="col-6">
+                      <div class="mb-3">
+                        <%= form.label :fin , :class=> 'form-label' %>
+                          <%= form.date_field :fin , :class=> 'form-control', :value => @fecha2,
+                          onChange: 'this.form.requestSubmit()' %>
+                      </div>
+                      <% end %> 
+                  </div>
+                </div>
+              </center>
+
+              <center>
+                <h4>Balance</h4>
+              </center>
+              <center>
+              <% @temp = Ingreso.where(tipo:1,fecha: (@fecha1 .. @fecha2)).sum(:monto) %>
+                  <% @temp=@temp - Ingreso.where(tipo:2,fecha: (@fecha1 .. @fecha2)).sum(:monto) %>
+                    <% if @temp> 0 %>
+                      <h1 style="color: green;">
+                        <% else %>
+                          <h1 style="color: red;">
+                            <% end %>
+                              <%= @temp %>
+                          </h1>
+              </center>
+            </div>
+          </div>
+        </div>
+        <div class="col-4">
+          <div class="card" style="width: 100%;">
+            <div class="card-body">
+              <center><a href="/egresos" class="btn btn-primary">Más detalle</a></center> <br>
+              <center><a href="/egresos/new"><i class="fas fa-plus-circle" style="font-size: 50px;"></i></a> </center>
+            </div>
+          </div>
+        </div>
+
+
+      </div>
+
+
+      <%= stylesheet_link_tag %>
+    </div>

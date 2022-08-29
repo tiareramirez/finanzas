@@ -1,0 +1,74 @@
+<%= render 'shared/menu' %>
+    <div class="container" style="margin-left:18%">
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <h4>Ingresos</h4>
+            </div>
+        </div>
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-2 ">
+                        <a href="/ingresos/new" class="btn btn-success"><i class="far fa-plus-square"></i>&nbsp;Crear</a>
+                    </div>
+                    <div class="col-4">
+                    <%= form_with url: ingresos_path , method: :get do |form| %>
+                        <div class="mb-3">
+                          <%= form.label :inicio , :class=> 'form-label' %>
+                            <%= form.date_field :inicio , :class=> 'form-control', :value => @fecha1,
+                            onChange: 'this.form.requestSubmit()' %>
+                        </div>
+                    </div>
+                    <div class="col-6">
+                        <div class="mb-3">
+                          <%= form.label :fin , :class=> 'form-label' %>
+                            <%= form.date_field :fin , :class=> 'form-control', :value => @fecha2,
+                            onChange: 'this.form.requestSubmit()' %>
+                        </div>
+                        <% end %> 
+                      </div>
+                    </div>
+                    <div class="col-12" style="margin-top:2%">
+                        <table class="table table-sm" id="tableCategoria">
+                            <thead>
+                                <tr>
+                                    <th>Id</th>
+                                    <th>Categoria</th>
+                                    <th>Fecha</th>
+                                    <th>Monto</th>
+                                    <th>Comentario</th>
+                                    <th>Acciones</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <% @ingreso.each do |item|  %>
+                                    <% @cat = Categorium.find(item.id_categoria) %>
+                                    <tr>
+                                        <td><%= item.id %></td>
+                                        <td>
+                                            <i class="fas fa-<%= @cat.icono %>" ></i>      
+                                            <%= @cat.categoria %>
+                                        </td>
+                                        <td><%= item.fecha %></td>
+                                        <td>$ <%= item.monto %></td>
+                                        <td><%= item.comentario %></td>
+                                        <td>
+                                        <%= link_to edit_ingreso_path(item.id) do %><i class="fas fa-edit"></i>  Editar <% end %> &nbsp;    
+                                            <a style="color:red" href="/ingresos/destroy/<%= item.id %>"><i class="fas fa-trash"></i> Eliminar</a>
+                                        </td>
+                                    </tr>
+                                <% end %>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%= stylesheet_link_tag  %>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#tableCategoria').DataTable();
+        } );
+    </script>

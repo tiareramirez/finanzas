@@ -1,0 +1,40 @@
+<%= render 'shared/menu' %>
+    <div class="container" style="margin-left:18%">
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <h4>Editar categorias</h4>
+            </div>
+        </div>
+        <div class="card" aria-hidden="true">
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-12" style="margin-top:2%">
+                    <%= form_with(model: @categoria, url: categoria_path) do |form| %>
+                            <div class="mb-3">
+                                <%= form.label :categoria , :class => 'form-label' %>
+                                <%= form.text_field :categoria , :class => 'form-control' %>
+                            </div>
+                            <div class="mb-3">
+                                <%= form.label :tipo , :class => 'form-label' %>
+                                <%= form.select :tipo, [["Ingreso", "1"], ["Egreso", "2"]] , :class => 'form-control' %>
+                            </div>
+                            <div class="mb-3">
+                            <%= form.label :icono , :class => 'form-label' %>
+                            <%= form.select :icono, [["Comida", "utensils"], ["Medico", "hospital-user"],["Sueldo","coins"]] , :class => 'form-control' %>
+                        </div>
+                            <div class="mb-3">
+                            <%= form.submit "Editar categoria", :class => "btn btn-success" %>
+                           </div>
+                        <% end %>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <%= stylesheet_link_tag  %>
+    </div>
+
+    <script>
+        $(document).ready( function () {
+            $('#tableCategoria').DataTable();
+        } );
+    </script>
